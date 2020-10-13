@@ -25,8 +25,7 @@ while principal > 0:
         total_paid = total_paid - abs(principal)
         principal = 0
 
-    print(month, round(total_paid, 2), round(principal, 2))
+    print(f'{month:3}  {total_paid:9.2f}  {principal:9.2f}')
 
 total_paid_formatted = '{:,}'.format(round(total_paid, 2))
-
-print('Total paid', total_paid_formatted, 'over', month, 'months')
+print(f'\nTotal paid {total_paid_formatted} over {month} months')

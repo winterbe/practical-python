@@ -18,10 +18,12 @@ while principal > 0:
         monthly_extra = extra_payment
     else:
         monthly_extra = 0
+
     principal = principal * (1 + rate / 12) - payment - monthly_extra
     total_paid = total_paid + payment + monthly_extra
 
-total_paid_rounded = round(total_paid * 100) / 100
-total_paid_formatted = '{:,}'.format(total_paid_rounded)
+    print(month, round(total_paid, 2), round(principal, 2))
+
+total_paid_formatted = '{:,}'.format(round(total_paid, 2))
 
 print('Total paid', total_paid_formatted, 'over', month, 'months')

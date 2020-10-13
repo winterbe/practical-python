@@ -21,6 +21,9 @@ while principal > 0:
 
     principal = principal * (1 + rate / 12) - payment - monthly_extra
     total_paid = total_paid + payment + monthly_extra
+    if principal < 0:
+        total_paid = total_paid - abs(principal)
+        principal = 0
 
     print(month, round(total_paid, 2), round(principal, 2))
 

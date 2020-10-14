@@ -3,6 +3,7 @@
 # Exercise 2.4
 
 import csv
+from pprint import pprint
 
 
 def read_portfolio(filename):
@@ -14,10 +15,14 @@ def read_portfolio(filename):
             name = row[0]
             share = int(row[1])
             price = float(row[2])
-            holding = (name, share, price)
+            holding = {
+                'name': name,
+                'share': share,
+                'price': price
+            }
             portfolio.append(holding)
     return portfolio
 
 
 portfolio = read_portfolio('Data/portfolio.csv')
-print(portfolio)
+pprint(portfolio)

@@ -6,10 +6,13 @@ import csv
 from pprint import pprint
 
 
-def parse_csv(filename, select=None, types=None, has_headers=False, delimiter=','):
+def parse_csv(filename, select=None, types=None, has_headers=True, silence_errors=True, delimiter=','):
     """
     Parse a CSV file into a list of records
     """
+    if not has_headers and select:
+        raise RuntimeError("wrong combination of args")
+
     with open(filename) as f:
         rows = csv.reader(f, delimiter=delimiter)
 
@@ -28,29 +31,35 @@ def parse_csv(filename, select=None, types=None, has_headers=False, delimiter=',
             indices = []
 
         records = []
-        for row in rows:
-            if not row:  # Skip rows with no data
-                continue
+        for index, row in enumerate(rows):
+            try:
+                if not row:  # Skip rows with no data
+                    continue
 
-            # Filter the row if specific columns were selected
-            if indices:
-                row = [row[index] for index in indices]
+                # Filter the row if specific columns were selected
+                if indices:
+                    row = [row[index] for index in indices]
 
-            if types:
-                row = [func(val) for func, val in zip(types, row)]
+                if types:
+                    row = [func(val) for func, val in zip(types, row)]
 
-            if headers:
-                record = dict(zip(headers, row))
-            else:
-                record = tuple(row)
+                if headers:
+                    record = dict(zip(headers, row))
+                else:
+                    record = tuple(row)
 
-            records.append(record)
+                records.append(record)
+            except ValueError as e:
+                if not silence_errors:
+                    print(f"Row {index + 1}: Couldn't convert", row)
+                    print(f"Row {index + 1}: Reason", e)
+                pass
 
     return records
 
 
 def test():
-    portfolio = parse_csv('Data/portfolio.dat', delimiter=' ')
+    portfolio = parse_csv('Data/missing.csv', types=[str, int, float], silence_errors=False)
     pprint(portfolio)
 
 

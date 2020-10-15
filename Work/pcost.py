@@ -7,7 +7,8 @@ from Work.fileparse import parse_csv
 
 
 def portfolio_cost(filename):
-    return parse_csv(filename, select=["shares", "price"], types=[int, float], silence_errors=True)
+    with open(filename, "rt") as f:
+        return parse_csv(f, select=["shares", "price"], types=[int, float], silence_errors=True)
 
 
 if len(sys.argv) == 2:

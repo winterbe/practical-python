@@ -7,12 +7,14 @@ from Work.fileparse import parse_csv
 
 
 def read_portfolio(filename):
-    return parse_csv(filename, types=[str, int, float])
+    with open(filename, "rt") as f:
+        return parse_csv(f, types=[str, int, float])
 
 
 def read_prices(filename):
-    prices = parse_csv(filename, types=[str, float], has_headers=False, silence_errors=True)
-    return dict(prices)
+    with open(filename, "rt") as f:
+        prices = parse_csv(f, types=[str, float], has_headers=False, silence_errors=True)
+        return dict(prices)
 
 
 def make_report(portfolio, prices):
@@ -44,8 +46,8 @@ def portfolio_report(portfolio_filename, prices_filename):
 
 
 def main(argv):
-    # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
-    portfolio_report(argv[0], argv[1])
+    portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+    # portfolio_report(argv[0], argv[1])
 
 
 if __name__ == '__main__':

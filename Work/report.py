@@ -4,11 +4,13 @@
 # Exercise 2.4
 
 from Work.fileparse import parse_csv
+from Work.stock import Stock
 
 
 def read_portfolio(filename):
     with open(filename, "rt") as f:
-        return parse_csv(f, types=[str, int, float])
+        dicts = parse_csv(f, types=[str, int, float])
+        return [Stock(p["name"], p["shares"], p["price"]) for p in dicts]
 
 
 def read_prices(filename):
@@ -20,9 +22,9 @@ def read_prices(filename):
 def make_report(portfolio, prices):
     rows = []
     for p in portfolio:
-        name = p["name"]
-        shares = p["shares"]
-        price = p["price"]
+        name = p.name
+        shares = p.shares
+        price = p.price
         current_price = prices[name]
         change = current_price - price
         rows.append((name, shares, current_price, change))

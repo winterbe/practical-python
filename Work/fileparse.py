@@ -58,9 +58,9 @@ def parse_csv(filename, select=None, types=None, has_headers=True, silence_error
     return records
 
 
-def test():
-    portfolio = parse_csv('Data/missing.csv', types=[str, int, float], silence_errors=False)
-    pprint(portfolio)
-
-
-test()
+# def test():
+#     portfolio = parse_csv('Data/missing.csv', types=[str, int, float], silence_errors=False)
+#     pprint(portfolio)
+#
+#
+# test()

@@ -2,44 +2,27 @@
 #
 # Exercise 2.4
 
-import csv
+from Work.fileparse import parse_csv
 
 
 def read_portfolio(filename):
-    portfolio = []
-    with open(filename, 'rt') as f:
-        rows = csv.reader(f)
-        headers = next(rows)
-        for row in rows:
-            name = row[0]
-            share = int(row[1])
-            price = float(row[2])
-            holding = dict(zip(headers, (name, share, price)))
-            portfolio.append(holding)
-    return portfolio
+    return parse_csv(filename, types=[str, int, float])
 
 
 def read_prices(filename):
-    prices = {}
-    with open(filename, "rt") as f:
-        rows = csv.reader(f)
-        for row in rows:
-            if len(row) == 2:
-                name = row[0]
-                price = float(row[1])
-                prices[name] = price
-    return prices
+    prices = parse_csv(filename, types=[str, float], has_headers=False, silence_errors=True)
+    return dict(prices)
 
 
 def make_report(portfolio, prices):
     rows = []
     for p in portfolio:
         name = p["name"]
-        share = p["shares"]
+        shares = p["shares"]
         price = p["price"]
         current_price = prices[name]
         change = current_price - price
-        rows.append((name, share, current_price, change))
+        rows.append((name, shares, current_price, change))
     return rows
 
 

@@ -2,26 +2,12 @@
 #
 # Exercise 1.27
 
-import csv
 import sys
+from Work.fileparse import parse_csv
 
 
 def portfolio_cost(filename):
-    f = open(filename, "rt")
-    try:
-        rows = csv.reader(f)
-        next(rows)  # ignore headers
-        cost = 0.0
-        for row in rows:
-            try:
-                share = int(row[1])
-                price = float(row[2])
-                cost = cost + (share * price)
-            except ValueError:
-                print("Could not handle row:", row)
-        return cost
-    finally:
-        f.close()
+    return parse_csv(filename, select=["shares", "price"], types=[int, float], silence_errors=True)
 
 
 if len(sys.argv) == 2:

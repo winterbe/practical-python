@@ -1,9 +1,10 @@
-from Work import report
-from Work.fileparse import parse_csv
+from Work.typedproperty import StringProp, IntProp, FloatProp
 
 
 class Stock:
-    __slots__ = ('name', 'shares', 'price')
+    name = StringProp('name')
+    shares = IntProp('shares')
+    price = FloatProp('price')
 
     def __init__(self, name: str, shares: int, price: float):
         self.name = name
@@ -22,14 +23,13 @@ class Stock:
 
 
 def main():
-    portfolio = report.read_portfolio('Data/portfolio.csv')
-    print(portfolio)
-    # s = Stock("bla", 100, 9.9)
-    # print(s)
-    # with open("Data/portfolio.csv", "rt") as lines:
-    #     portdicts = parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
-    #     portfolio = [Stock(p["name"], p["shares"], p["price"]) for p in portdicts]
-    #     print(sum([s.cost for s in portfolio]))
+    s = Stock("bla", 100, 9.9)
+    print(s)
+    with open("Data/portfolio.csv", "rt") as lines:
+        from Work.fileparse import parse_csv
+        portdicts = parse_csv(lines, select=['name', 'shares', 'price'], types=[str, int, float])
+        portfolio = [Stock(p["name"], p["shares"], p["price"]) for p in portdicts]
+        print(sum([s.cost for s in portfolio]))
 
 
 if __name__ == "__main__":

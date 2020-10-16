@@ -2,6 +2,8 @@
 # report.py
 #
 # Exercise 2.4
+from pprint import pprint
+
 from Work import tableformat
 from Work.fileparse import parse_csv
 from Work.stock import Stock
@@ -10,7 +12,7 @@ from Work.stock import Stock
 def read_portfolio(filename):
     with open(filename, "rt") as f:
         dicts = parse_csv(f, types=[str, int, float])
-        return [Stock(p["name"], p["shares"], p["price"]) for p in dicts]
+        return [Stock(**p) for p in dicts]
 
 
 def read_prices(filename):
@@ -58,7 +60,11 @@ def portfolio_report(portfoliofile, pricefile, fmt='txt'):
 
 
 def main(argv):
-    portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
+    portfolio = read_portfolio('Data/portfolio.csv')
+    portfolio.sort(key=lambda s: s.shares)
+    pprint(portfolio)
+
+    # portfolio_report('Data/portfolio.csv', 'Data/prices.csv')
     # portfolio_report(argv[0], argv[1])
 
 

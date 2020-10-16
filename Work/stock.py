@@ -3,6 +3,8 @@ from Work.fileparse import parse_csv
 
 
 class Stock:
+    __slots__ = ('name', 'shares', 'price')
+
     def __init__(self, name: str, shares: int, price: float):
         self.name = name
         self.shares = shares
